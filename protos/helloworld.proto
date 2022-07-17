@@ -27,13 +27,15 @@ service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
 }
 
+enum Gender {
+    MALE = 0;
+    FEMALE = 1;
+}
+
 message HelloRequest {
   string name = 1;
   int32 age = 2;
-  enum Gender {
-    MALE = 0;
-    FEMALE = 1;
-  }
+  Gender gender = 3;
 }
 
 message HelloReply {
