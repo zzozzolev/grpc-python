@@ -28,7 +28,24 @@ def run():
                 name="damian", age=32, gender=helloworld_pb2.MALE
             )
         )
-    print("response: " + str(response))
+        print_response(response, "Unary-Unary")
+
+        stream = stub.SayHelloStream(
+            helloworld_pb2.HelloRequest(
+                name="hyemi", age=10, gender=helloworld_pb2.FEMALE
+            )
+        )
+
+        for response in stream:
+            print_response(response, "Unary-Streaming")
+
+
+def print_response(response, rpc_life_cycle):
+    print(f"----------- {rpc_life_cycle} -----------")
+    print("response")
+    print(str(response))
+    print("- - - - - -")
+    print("fields")
     print("message: " + response.message)
     print("is_welcome: " + str(response.is_welcome))
 
