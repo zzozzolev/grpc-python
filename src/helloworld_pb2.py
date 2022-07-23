@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10helloworld.proto\x12\nhelloworld\"M\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0b\n\x03\x61ge\x18\x02 \x01(\x05\x12\"\n\x06gender\x18\x03 \x01(\x0e\x32\x12.helloworld.Gender\"1\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x12\n\nis_welcome\x18\x02 \x01(\x08*\x1e\n\x06Gender\x12\x08\n\x04MALE\x10\x00\x12\n\n\x06\x46\x45MALE\x10\x01\x32I\n\x07Greeter\x12>\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x16.helloworld.HelloReply\"\x00\x42\x36\n\x1bio.grpc.examples.helloworldB\x0fHelloWorldProtoP\x01\xa2\x02\x03HLWb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10helloworld.proto\x12\nhelloworld\"M\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0b\n\x03\x61ge\x18\x02 \x01(\x05\x12\"\n\x06gender\x18\x03 \x01(\x0e\x32\x12.helloworld.Gender\"1\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x12\n\nis_welcome\x18\x02 \x01(\x08*\x1e\n\x06Gender\x12\x08\n\x04MALE\x10\x00\x12\n\n\x06\x46\x45MALE\x10\x01\x32\x91\x01\n\x07Greeter\x12>\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x16.helloworld.HelloReply\"\x00\x12\x46\n\x0eSayHelloStream\x12\x18.helloworld.HelloRequest\x1a\x16.helloworld.HelloReply\"\x00\x30\x01\x42\x36\n\x1bio.grpc.examples.helloworldB\x0fHelloWorldProtoP\x01\xa2\x02\x03HLWb\x06proto3')
 
 _GENDER = DESCRIPTOR.enum_types_by_name['Gender']
 Gender = enum_type_wrapper.EnumTypeWrapper(_GENDER)
@@ -50,6 +50,6 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _HELLOREQUEST._serialized_end=109
   _HELLOREPLY._serialized_start=111
   _HELLOREPLY._serialized_end=160
-  _GREETER._serialized_start=194
-  _GREETER._serialized_end=267
+  _GREETER._serialized_start=195
+  _GREETER._serialized_end=340
 # @@protoc_insertion_point(module_scope)
