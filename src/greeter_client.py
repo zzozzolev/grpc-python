@@ -16,6 +16,8 @@
 import logging
 
 import grpc
+from google.rpc import error_details_pb2
+from grpc_status import rpc_status
 import helloworld_pb2
 import helloworld_pb2_grpc
 
@@ -29,6 +31,19 @@ def run():
             )
         )
         print_response(response, "Unary-Unary")
+
+        try:
+            response = stub.SayHello(helloworld_pb2.HelloRequest(name="anonymous"))
+        except grpc.RpcError as rpc_error:
+            print("!!! rpc failed !!!")
+            status = rpc_status.from_call(rpc_error)
+            for detail in status.details:
+                if detail.Is(error_details_pb2.BadRequest.DESCRIPTOR):
+                    info = error_details_pb2.BadRequest()
+                    detail.Unpack(info)
+                    print(info)
+                else:
+                    print("Unexpected error")
 
         stream = stub.SayHelloStream(
             helloworld_pb2.HelloRequest(
