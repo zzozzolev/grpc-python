@@ -10,8 +10,7 @@ import helloworld_pb2, helloworld_pb2_grpc
 
 class Greeter(helloworld_pb2_grpc.GreeterServicer):
     def SayHello(self, request, context):
-        if request.name == "hyemi":
-            is_welcome = True
+        is_welcome = True if request.name == "hyemi" else False
         return helloworld_pb2.HelloReply(
             message=f"Hello, {request.name}!", is_welcome=is_welcome
         )
