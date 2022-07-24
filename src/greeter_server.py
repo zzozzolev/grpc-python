@@ -9,6 +9,7 @@ from google.protobuf import any_pb2
 from google.rpc import error_details_pb2, code_pb2, status_pb2
 from grpc_reflection.v1alpha import reflection
 from grpc_status import rpc_status
+from grpc_health.v1 import health, health_pb2, health_pb2_grpc
 import helloworld_pb2, helloworld_pb2_grpc
 
 
@@ -54,9 +55,21 @@ class Greeter(helloworld_pb2_grpc.GreeterServicer):
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+
+    # greeter service
     helloworld_pb2_grpc.add_GreeterServicer_to_server(Greeter(), server)
+
+    # health check service
+    health_check_servicer = health.HealthServicer()
+    health_check_servicer._server_status[
+        "Greeter"
+    ] = health_pb2.HealthCheckResponse.ServingStatus.SERVING
+    health_pb2_grpc.add_HealthServicer_to_server(health_check_servicer, server)
+
+    # reflection
     SERVICE_NAMES = (
         helloworld_pb2.DESCRIPTOR.services_by_name["Greeter"].full_name,
+        health_pb2.DESCRIPTOR.services_by_name["Health"].full_name,
         reflection.SERVICE_NAME,
     )
     reflection.enable_server_reflection(SERVICE_NAMES, server=server)
