@@ -27,6 +27,7 @@ service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
   rpc SayHelloStream (HelloRequest) returns (stream HelloReply) {}
   rpc SayHelloClientStream (stream HelloRequest) returns (HelloReply) {}
+  rpc SayHelloBiStream (stream HelloRequest) returns (stream HelloReply) {}
 }
 
 enum Gender {
