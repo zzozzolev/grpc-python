@@ -40,6 +40,7 @@ def run():
             metadata=((("access-token", "fake_token"),)),
         )
         print_response(response, "Unary-Unary")
+        print("- - - - - -")
         print("metadata")
         for key, value in call.trailing_metadata():
             print(key, value)
