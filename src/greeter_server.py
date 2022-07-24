@@ -63,6 +63,16 @@ class Greeter(helloworld_pb2_grpc.GreeterServicer):
             message=f"Hello everyone!, {names}", is_welcome=True
         )
 
+    def SayHelloBiStream(
+        self,
+        request_iterator: Iterable[helloworld_pb2.HelloRequest],
+        context: grpc.ServicerContext,
+    ) -> Iterable[helloworld_pb2.HelloReply]:
+        for request in request_iterator:
+            yield helloworld_pb2.HelloReply(
+                message=f"Hello, {request.name}!", is_welcome=True
+            )
+
     def _get_anonymous_status(self):
         detail = any_pb2.Any()
         detail.Pack(
