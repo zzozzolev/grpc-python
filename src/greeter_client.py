@@ -85,6 +85,24 @@ def run():
         response = stub.SayHelloClientStream(hello_requests)
         print_response(response, "Streaming-Unary")
 
+        # Stream-Stream call
+        hello_requests = iter(
+            [
+                helloworld_pb2.HelloRequest(
+                    name="jam1", age=1, gender=helloworld_pb2.FEMALE
+                ),
+                helloworld_pb2.HelloRequest(
+                    name="jam2", age=2, gender=helloworld_pb2.FEMALE
+                ),
+                helloworld_pb2.HelloRequest(
+                    name="jam3", age=3, gender=helloworld_pb2.MALE
+                ),
+            ]
+        )
+        stream = stub.SayHelloBiStream(hello_requests)
+        for response in stream:
+            print_response(response, "Streaming-Streaming")
+
 
 def print_response(response, rpc_life_cycle):
     print(f"----------- {rpc_life_cycle} -----------")
