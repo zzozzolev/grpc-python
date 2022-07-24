@@ -68,6 +68,23 @@ def run():
         for response in stream:
             print_response(response, "Unary-Streaming")
 
+        # Stream-Unary call
+        hello_requests = iter(
+            [
+                helloworld_pb2.HelloRequest(
+                    name="jam", age=1, gender=helloworld_pb2.FEMALE
+                ),
+                helloworld_pb2.HelloRequest(
+                    name="ham", age=2, gender=helloworld_pb2.FEMALE
+                ),
+                helloworld_pb2.HelloRequest(
+                    name="tam", age=3, gender=helloworld_pb2.MALE
+                ),
+            ]
+        )
+        response = stub.SayHelloClientStream(hello_requests)
+        print_response(response, "Streaming-Unary")
+
 
 def print_response(response, rpc_life_cycle):
     print(f"----------- {rpc_life_cycle} -----------")
