@@ -18,12 +18,18 @@ import logging
 import grpc
 from google.rpc import error_details_pb2
 from grpc_status import rpc_status
+from grpc_health.v1 import health_pb2_grpc, health_pb2
 import helloworld_pb2
 import helloworld_pb2_grpc
 
 
 def run():
     with grpc.insecure_channel("localhost:50051") as channel:
+        stub = health_pb2_grpc.HealthStub(channel)
+        response = stub.Check(health_pb2.HealthCheckRequest(service="Greeter"))
+        print("----------- Health Check -----------")
+        print(response)
+
         stub = helloworld_pb2_grpc.GreeterStub(channel)
         response = stub.SayHello(
             helloworld_pb2.HelloRequest(
