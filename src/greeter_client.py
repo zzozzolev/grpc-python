@@ -25,11 +25,13 @@ import helloworld_pb2_grpc
 
 def run():
     with grpc.insecure_channel("localhost:50051") as channel:
+        # health check
         stub = health_pb2_grpc.HealthStub(channel)
         response = stub.Check(health_pb2.HealthCheckRequest(service="Greeter"))
         print("----------- Health Check -----------")
         print(response)
 
+        # Unary-Unary call
         stub = helloworld_pb2_grpc.GreeterStub(channel)
         response = stub.SayHello(
             helloworld_pb2.HelloRequest(
@@ -38,6 +40,7 @@ def run():
         )
         print_response(response, "Unary-Unary")
 
+        # error handling
         try:
             response = stub.SayHello(helloworld_pb2.HelloRequest(name="anonymous"))
         except grpc.RpcError as rpc_error:
@@ -51,12 +54,12 @@ def run():
                 else:
                     print("Unexpected error")
 
+        # Unary-Stream call
         stream = stub.SayHelloStream(
             helloworld_pb2.HelloRequest(
                 name="hyemi", age=10, gender=helloworld_pb2.FEMALE
             )
         )
-
         for response in stream:
             print_response(response, "Unary-Streaming")
 
