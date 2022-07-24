@@ -13,6 +13,16 @@ from grpc_health.v1 import health, health_pb2, health_pb2_grpc
 import helloworld_pb2, helloworld_pb2_grpc
 
 
+class LoggingInterceptor(grpc.ServerInterceptor):
+    def intercept_service(
+        self, continuation, handler_call_details: grpc.HandlerCallDetails
+    ):
+        print(f"----------- Before {handler_call_details.method} -----------")
+        result = continuation(handler_call_details)
+        print(f"----------- After {handler_call_details.method} -----------")
+        return result
+
+
 class Greeter(helloworld_pb2_grpc.GreeterServicer):
     STREAM_GREETING = ["one", "two", "three", "four"]
 
@@ -62,7 +72,10 @@ class Greeter(helloworld_pb2_grpc.GreeterServicer):
 
 
 def serve():
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    logging_interceptor = LoggingInterceptor()
+    server = grpc.server(
+        futures.ThreadPoolExecutor(max_workers=10), interceptors=[logging_interceptor]
+    )
 
     # greeter service
     helloworld_pb2_grpc.add_GreeterServicer_to_server(Greeter(), server)
