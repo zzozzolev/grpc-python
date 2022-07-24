@@ -48,7 +48,7 @@ def run():
         try:
             response = stub.SayHello(helloworld_pb2.HelloRequest(name="anonymous"))
         except grpc.RpcError as rpc_error:
-            print("!!! rpc failed !!!")
+            print("----------- rpc failed -----------")
             status = rpc_status.from_call(rpc_error)
             for detail in status.details:
                 if detail.Is(error_details_pb2.BadRequest.DESCRIPTOR):
