@@ -31,14 +31,18 @@ def run():
         print("----------- Health Check -----------")
         print(response)
 
-        # Unary-Unary call
+        # Unary-Unary call (metadata)
         stub = helloworld_pb2_grpc.GreeterStub(channel)
-        response = stub.SayHello(
+        response, call = stub.SayHello.with_call(
             helloworld_pb2.HelloRequest(
                 name="damian", age=32, gender=helloworld_pb2.MALE
-            )
+            ),
+            metadata=((("access-token", "fake_token"),)),
         )
         print_response(response, "Unary-Unary")
+        print("metadata")
+        for key, value in call.trailing_metadata():
+            print(key, value)
 
         # error handling
         try:

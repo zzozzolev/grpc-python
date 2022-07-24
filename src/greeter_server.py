@@ -24,6 +24,14 @@ class Greeter(helloworld_pb2_grpc.GreeterServicer):
             context.abort_with_status(rpc_status.to_status(status))
 
         is_welcome = True if request.name == "hyemi" else False
+
+        # metadata
+        print("metadata")
+        for key, value in context.invocation_metadata():
+            print(key, value)
+
+        context.set_trailing_metadata((("retry", "false"),))
+
         return helloworld_pb2.HelloReply(
             message=f"Hello, {request.name}!", is_welcome=is_welcome
         )
